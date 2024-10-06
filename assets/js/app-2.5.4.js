@@ -879,7 +879,7 @@ window.onload = function() {
     if (openChannel === "selfwidget") {
       showResult = widgetRe;
       TestServerip = domainx;
-      myhostName = TestServerip;
+      myhostName = TestServerip.replace(/:\d+$/, '');
     }
     if (openChannel === "dev") {
     }
