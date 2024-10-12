@@ -1,32 +1,16 @@
 <html>
 <head>
   <script>
-    var getParams = function(url) {
-      var params = {};
-      var parser = document.createElement("a");
-      parser.href = url;
-      var query = parser.search.substring(1);
-      var vars = query.split("&");
-      for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        params[pair[0]] = decodeURIComponent(pair[1]);
-      }
-      return params;
-    };
-
     function isValidHttpUrl(str) {
       var regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
       return regex.test(str);
     }
 
-    var getCommand = getParams(window.location.href.toLowerCase());
+    var params = new URL(window.location.href.toLowerCase()).searchParams;
 
-    var dest = "";
-    if (typeof getCommand.h === "string") {
-      dest = getCommand.h;
-      if (dest.search(/^https?:\/\//) == -1) {
-        dest = "http" + (typeof getCommand.s !== "undefined" ? "s" : "") + "://" + dest;
-      }
+    var dest = params.get("h");
+    if (dest && dest.search(/^https?:\/\//) == -1) {
+      dest = "http" + (params.has("s") ? "s" : "") + "://" + dest;
     }
 
     if (isValidHttpUrl(dest)) {
